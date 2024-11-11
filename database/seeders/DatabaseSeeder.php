@@ -20,12 +20,5 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@elsys.org',
             'password' => Hash::make('password'),
         ]);
-
-//        User::factory()->create([
-//            'first_name' => 'Super',
-//            'last_name' => 'Admin',
-//            'email' => 'superadmin@elsys.org',
-////            'password' => Hash::make('password'),
-//        ])->dd();
     }
 }
