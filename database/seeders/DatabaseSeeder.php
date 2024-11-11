@@ -14,11 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'superadmin@elsys.org',
-            'password' => Hash::make('password'),
+        $this->call([
+            UserSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }
