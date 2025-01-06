@@ -2,27 +2,54 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class StorePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Prepare the data for validation.
+     *
+     * @return void
      */
-    public function authorize(): bool
+    protected function prepareForValidation(): void
     {
-        return false;
+        $this->merge([
+            'user_id' => auth()->id(),
+            'slug' => Str::slug($this->title),
+        ]);
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'user_id' => [
+                'required',
+                'integer',
+                'exists:users,id',
+            ],
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:posts,slug',
+            ],
+            'content' => [
+                'required',
+                'string',
+            ],
         ];
     }
 }
